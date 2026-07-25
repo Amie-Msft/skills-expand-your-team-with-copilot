@@ -41,7 +41,8 @@ initial_activities = {
             "end_time": "16:45"
         },
         "max_participants": 12,
-        "participants": ["michael@mergington.edu", "daniel@mergington.edu"]
+        "participants": ["michael@mergington.edu", "daniel@mergington.edu"],
+        "difficulty": "Beginner"
     },
     "Programming Class": {
         "description": "Learn programming fundamentals and build software projects",
@@ -52,7 +53,8 @@ initial_activities = {
             "end_time": "08:00"
         },
         "max_participants": 20,
-        "participants": ["emma@mergington.edu", "sophia@mergington.edu"]
+        "participants": ["emma@mergington.edu", "sophia@mergington.edu"],
+        "difficulty": "Intermediate"
     },
     "Morning Fitness": {
         "description": "Early morning physical training and exercises",
@@ -96,7 +98,8 @@ initial_activities = {
             "end_time": "17:00"
         },
         "max_participants": 15,
-        "participants": ["amelia@mergington.edu", "harper@mergington.edu"]
+        "participants": ["amelia@mergington.edu", "harper@mergington.edu"],
+        "difficulty": "Beginner"
     },
     "Manga Maniacs": {
         "description": "Dive into Japanese Manga adventures with epic heroes, unforgettable rivals, and story arcs you'll want to talk about all week.",
@@ -118,7 +121,8 @@ initial_activities = {
             "end_time": "17:30"
         },
         "max_participants": 20,
-        "participants": ["ella@mergington.edu", "scarlett@mergington.edu"]
+        "participants": ["ella@mergington.edu", "scarlett@mergington.edu"],
+        "difficulty": "Intermediate"
     },
     "Math Club": {
         "description": "Solve challenging problems and prepare for math competitions",
@@ -129,7 +133,8 @@ initial_activities = {
             "end_time": "08:00"
         },
         "max_participants": 10,
-        "participants": ["james@mergington.edu", "benjamin@mergington.edu"]
+        "participants": ["james@mergington.edu", "benjamin@mergington.edu"],
+        "difficulty": "Advanced"
     },
     "Debate Team": {
         "description": "Develop public speaking and argumentation skills",
@@ -140,7 +145,8 @@ initial_activities = {
             "end_time": "17:30"
         },
         "max_participants": 12,
-        "participants": ["charlotte@mergington.edu", "amelia@mergington.edu"]
+        "participants": ["charlotte@mergington.edu", "amelia@mergington.edu"],
+        "difficulty": "Intermediate"
     },
     "Weekend Robotics Workshop": {
         "description": "Build and program robots in our state-of-the-art workshop",
@@ -151,7 +157,8 @@ initial_activities = {
             "end_time": "14:00"
         },
         "max_participants": 15,
-        "participants": ["ethan@mergington.edu", "oliver@mergington.edu"]
+        "participants": ["ethan@mergington.edu", "oliver@mergington.edu"],
+        "difficulty": "Advanced"
     },
     "Science Olympiad": {
         "description": "Weekend science competition preparation for regional and state events",
@@ -162,7 +169,8 @@ initial_activities = {
             "end_time": "16:00"
         },
         "max_participants": 18,
-        "participants": ["isabella@mergington.edu", "lucas@mergington.edu"]
+        "participants": ["isabella@mergington.edu", "lucas@mergington.edu"],
+        "difficulty": "Advanced"
     },
     "Sunday Chess Tournament": {
         "description": "Weekly tournament for serious chess players with rankings",
@@ -173,7 +181,8 @@ initial_activities = {
             "end_time": "17:00"
         },
         "max_participants": 16,
-        "participants": ["william@mergington.edu", "jacob@mergington.edu"]
+        "participants": ["william@mergington.edu", "jacob@mergington.edu"],
+        "difficulty": "Advanced"
     }
 }
 
