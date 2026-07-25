@@ -615,6 +615,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const shareButton = activityCard.querySelector(".share-button");
     const shareMenu = activityCard.querySelector(".share-menu");
 
+    // Build the activity-specific URL
+    function getActivityUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.set("activity", name);
+      return url.toString();
+    }
+
     shareButton.addEventListener("click", (event) => {
       event.stopPropagation();
       // Close all other open share menus first
@@ -625,21 +632,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     activityCard.querySelector(".copy-link-button").addEventListener("click", () => {
-      const url = new URL(window.location.href);
-      url.searchParams.set("activity", name);
-      const activityUrl = url.toString();
+      const activityUrl = getActivityUrl();
       navigator.clipboard.writeText(activityUrl).then(() => {
         showMessage("Link copied to clipboard!", "success");
       }).catch(() => {
-        showMessage("Could not copy link. Please copy it manually.", "error");
+        showMessage(
+          "Copying to clipboard failed. Please copy the link from your browser's address bar after opening the activity link.",
+          "error"
+        );
       });
       shareMenu.classList.add("hidden");
     });
 
     activityCard.querySelector(".email-share-button").addEventListener("click", () => {
-      const url = new URL(window.location.href);
-      url.searchParams.set("activity", name);
-      const activityUrl = url.toString();
+      const activityUrl = getActivityUrl();
       const subject = encodeURIComponent(`Check out this activity: ${name}`);
       const body = encodeURIComponent(
         `Hi!\n\nI wanted to share this activity with you:\n\n` +
