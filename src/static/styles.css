@@ -526,6 +526,11 @@ button {
   color: var(--primary);
 }
 
+.activity-card.activity-highlighted {
+  box-shadow: 0 0 0 3px var(--primary-light), 0 8px 15px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-light);
+}
+
 footer {
   text-align: center;
   margin-top: 20px;

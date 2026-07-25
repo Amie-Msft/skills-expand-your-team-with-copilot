@@ -472,12 +472,25 @@ document.addEventListener("DOMContentLoaded", () => {
     Object.entries(filteredActivities).forEach(([name, details]) => {
       renderActivityCard(name, details);
     });
+
+    // If URL has an ?activity= param, scroll to and highlight that card
+    const linkedActivity = new URLSearchParams(window.location.search).get("activity");
+    if (linkedActivity) {
+      const targetCard = activitiesList.querySelector(
+        `[data-name="${CSS.escape(linkedActivity)}"]`
+      );
+      if (targetCard) {
+        targetCard.classList.add("activity-highlighted");
+        targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
   }
 
   // Function to render a single activity card
   function renderActivityCard(name, details) {
     const activityCard = document.createElement("div");
     activityCard.className = "activity-card";
+    activityCard.dataset.name = name;
 
     // Calculate spots and capacity
     const totalSpots = details.max_participants;
@@ -614,7 +627,8 @@ document.addEventListener("DOMContentLoaded", () => {
     activityCard.querySelector(".copy-link-button").addEventListener("click", () => {
       const url = new URL(window.location.href);
       url.searchParams.set("activity", name);
-      navigator.clipboard.writeText(url.toString()).then(() => {
+      const activityUrl = url.toString();
+      navigator.clipboard.writeText(activityUrl).then(() => {
         showMessage("Link copied to clipboard!", "success");
       }).catch(() => {
         showMessage("Could not copy link. Please copy it manually.", "error");
@@ -623,11 +637,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     activityCard.querySelector(".email-share-button").addEventListener("click", () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("activity", name);
+      const activityUrl = url.toString();
       const subject = encodeURIComponent(`Check out this activity: ${name}`);
       const body = encodeURIComponent(
         `Hi!\n\nI wanted to share this activity with you:\n\n` +
         `${name}\n${details.description}\nSchedule: ${formatSchedule(details)}\n\n` +
-        `Check it out at: ${window.location.href}`
+        `Check it out at: ${activityUrl}`
       );
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
       shareMenu.classList.add("hidden");
