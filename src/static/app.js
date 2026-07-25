@@ -499,12 +499,25 @@ document.addEventListener("DOMContentLoaded", () => {
     Object.entries(filteredActivities).forEach(([name, details]) => {
       renderActivityCard(name, details);
     });
+
+    // If URL has an ?activity= param, scroll to and highlight that card
+    const linkedActivity = new URLSearchParams(window.location.search).get("activity");
+    if (linkedActivity) {
+      const targetCard = activitiesList.querySelector(
+        `[data-name="${CSS.escape(linkedActivity)}"]`
+      );
+      if (targetCard) {
+        targetCard.classList.add("activity-highlighted");
+        targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
   }
 
   // Function to render a single activity card
   function renderActivityCard(name, details) {
     const activityCard = document.createElement("div");
     activityCard.className = "activity-card";
+    activityCard.dataset.name = name;
 
     // Calculate spots and capacity
     const totalSpots = details.max_participants;
@@ -598,6 +611,15 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-section">
+        <button class="share-button" data-activity="${name}" aria-label="Share this activity">
+          📤 Share
+        </button>
+        <div class="share-menu hidden">
+          <button class="share-option copy-link-button" data-activity="${name}">🔗 Copy Link</button>
+          <button class="share-option email-share-button" data-activity="${name}">✉️ Share via Email</button>
+        </div>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -615,6 +637,51 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add share button handlers
+    const shareButton = activityCard.querySelector(".share-button");
+    const shareMenu = activityCard.querySelector(".share-menu");
+
+    // Build the activity-specific URL
+    function getActivityUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.set("activity", name);
+      return url.toString();
+    }
+
+    shareButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      // Close all other open share menus first
+      document.querySelectorAll(".share-menu").forEach((menu) => {
+        if (menu !== shareMenu) menu.classList.add("hidden");
+      });
+      shareMenu.classList.toggle("hidden");
+    });
+
+    activityCard.querySelector(".copy-link-button").addEventListener("click", () => {
+      const activityUrl = getActivityUrl();
+      navigator.clipboard.writeText(activityUrl).then(() => {
+        showMessage("Link copied to clipboard!", "success");
+      }).catch(() => {
+        showMessage(
+          "Copying to clipboard failed. Please copy the link from your browser's address bar after opening the activity link.",
+          "error"
+        );
+      });
+      shareMenu.classList.add("hidden");
+    });
+
+    activityCard.querySelector(".email-share-button").addEventListener("click", () => {
+      const activityUrl = getActivityUrl();
+      const subject = encodeURIComponent(`Check out this activity: ${name}`);
+      const body = encodeURIComponent(
+        `Hi!\n\nI wanted to share this activity with you:\n\n` +
+        `${name}\n${details.description}\nSchedule: ${formatSchedule(details)}\n\n` +
+        `Check it out at: ${activityUrl}`
+      );
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+      shareMenu.classList.add("hidden");
+    });
 
     activitiesList.appendChild(activityCard);
   }
@@ -713,6 +780,12 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("click", (event) => {
     if (event.target === registrationModal) {
       closeRegistrationModalHandler();
+    }
+    // Close any open share menus when clicking outside
+    if (!event.target.closest(".share-section")) {
+      document.querySelectorAll(".share-menu").forEach((menu) => {
+        menu.classList.add("hidden");
+      });
     }
   });
 
